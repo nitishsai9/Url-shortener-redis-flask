@@ -1,5 +1,6 @@
 from flask import Flask,request
-
+import string
+import random
 app = Flask(__name__)
 
 @app.route("/", methods=["GET", "POST"])
@@ -8,9 +9,18 @@ def home():
 @app.route("/url", methods=["GET", "POST"])
 def index():
     if request.method == 'POST':
-        url_link = request.form.get('url_name')
+        backup_url = request.form.get('url_name')
+        if backup_url.startswith("http://"):
+            url_link = backup_url.replace("http://","")
+        elif backup_url.startswith("https://"):
+            url_link = backup_url.replace("https://","")
+        else:
+            url_link=backup_url
+        all_chars = url_link+string.ascii_letters + string.digits
+        
+        short_url="del.dog/"+''.join(random.choices(all_chars, k=5))
         return '''
-                  <h1>The Shortend url value is: {}</h1>'''.format(url_link)
+                  <h1>The Shortend url value is: {}</h1>'''.format(short_url)
 
     # otherwise handle the GET request
     return '''
