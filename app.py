@@ -12,9 +12,11 @@ app = Flask(__name__)
 @app.route("/", methods=["GET", "POST"])
 def home():
     return "<h1> Home <br> Please Go to /url route </home>"
+
+
 @app.route("/url", methods=["GET", "POST"])
 def index():
-    if request.method == 'POST':
+    if request.method =='POST':
         backup_url = request.form.get('url_name')
         if backup_url.startswith("http://"):
             url_link = backup_url.replace("http://","")
